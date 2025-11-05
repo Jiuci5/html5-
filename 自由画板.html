@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    #canvas{
+        background-color: antiquewhite;
+    }
+</style>
+<body>
+    <canvas id="canvas" height="500px" width="500px"></canvas>
+</body>
+<script>
+    let painting=false//鼠标按下状态
+    let oldPoint={x:undefined,y:undefined}
+    var canvas=document.getElementById("canvas")
+    var ctx =canvas.getContext("2d")
+    //鼠标按下的时候
+    canvas.onmousedown=(e)=>{
+        let x=e.offsetX
+        let y=e.offsetY
+        oldPoint={x:x,y:y}
+        painting= true
+    }
+    //鼠标移动时
+    canvas.onmousemove=(e)=>{
+        let x=e.offsetX
+        let y=e.offsetY
+        let newPoint={x:x,y:y}
+        if(painting){
+            drawLine(oldPoint.x,oldPoint.y,newPoint.x,newPoint.y)
+            oldPoint=newPoint
+        }
+    }
+    //鼠标松开
+    canvas.onmouseup=()=>{
+        painting=false
+    }
+    //线条绘制
+    function drawLine(xOld,yOld,xNew,yNew){
+        ctx.beginPath()
+        ctx.lineWidth = 3
+        ctx.moveTo(xOld,yOld)
+        ctx.lineTo(xNew,yNew)
+        ctx.stroke()
+        ctx.closePath()
+    }
+</script>
+</html>
